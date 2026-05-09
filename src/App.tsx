@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import portfolio from './data/portfolio';
 import { useScrollReveal } from './hooks';
 import { useSectionBg } from './hooks/useSectionBg';
@@ -45,6 +47,10 @@ export default function App() {
 
       {/* Footer */}
       <Footer footer={portfolio.footer} />
+
+      {/* Analytics */}
+      <Analytics />
+      <SpeedInsights />
     </>
   );
 }
