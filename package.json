@@ -1,7 +1,11 @@
 {
-  "name": "portfolio-react",
+  "name": "jay-tapodhan-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Personal developer portfolio — Jay Tapodhan",
+  "author": "Jay Tapodhan",
+  "license": "MIT",
+  "homepage": "https://jay-tapodhan-portfolio.vercel.app",
   "type": "module",
   "scripts": {
     "dev": "vite",
