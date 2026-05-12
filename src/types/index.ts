@@ -35,6 +35,8 @@ export interface Project {
   link: string;
   featured: boolean;
   coming_soon?: boolean;
+  liveUrl?: string;
+  highlights?: string[];
 }
 
 export interface SkillItem {

@@ -38,9 +38,16 @@ const portfolio: PortfolioData = {
       num: '01', icon: 'zap', featured: true,
       title: 'TaskFlow — Team Task Manager',
       description:
-        'Team task management platform with assignment workflows, collaboration dashboard, and fully responsive UI. Built as IBM Full Stack capstone project.',
+        'A production-grade task management platform built for real teams. Assign tasks, track progress in real time, and collaborate across roles — all from a sleek, responsive dashboard. Shipped as the IBM Full Stack Development capstone.',
       tags: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
-      link: 'https://github.com/Ethical-21',
+      link: 'https://github.com/Ethical-21/taskflow-app',
+      liveUrl: 'https://taskflow-app-flame-kappa.vercel.app/',
+      highlights: [
+        'Role-based task assignment & visibility',
+        'Real-time collaboration dashboard',
+        'Full CRUD with REST API backend',
+        'JWT auth & protected routes',
+      ],
     },
     {
       num: '02', icon: 'brain', featured: false,
