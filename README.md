@@ -1,137 +1,66 @@
-# 🚀 Jay Tapodhan — Portfolio
+<div align="center">
 
-A cinematic, high-performance developer portfolio built with **React + TypeScript + Vite**. Features smooth scroll animations, interactive canvas backgrounds, and a fully responsive design.
+# Jay Tapodhan
 
-🔗 **Live:** [jay-tapodhan-portfolio.vercel.app](https://jay-tapodhan-portfolio.vercel.app)
+**Computer Engineering Student · Full-Stack Developer · AI Enthusiast**
 
----
+Building intelligent web apps and AI systems at the intersection of full-stack development and machine learning.
 
-## ✨ Features
+[![Portfolio](https://img.shields.io/badge/🔗_Live_Portfolio-00f0ff?style=for-the-badge&logoColor=black)](https://jay-tapodhan-portfolio.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jaytapodhan/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ethical-21)
+[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:jaytapodhan21@gmail.com)
 
-- **Cinematic Scroll Animations** — Scroll-driven parallax effects with smooth lerp-based motion
-- **Interactive Canvas Backgrounds** — Diagonal lattice grid, hex grid with data packets, matrix rain, and pulsing network nodes
-- **Custom Cursor** — Concentric dot + ring cursor with hover scaling effects
-- **Seamless Section Transitions** — No visible seams between sections; gradient-based blending
-- **Responsive Design** — Optimized for desktop, tablet, and mobile
-- **Resume Modal** — Inline PDF viewer with download option
-- **Fully Data-Driven** — All content managed from a single `portfolio.ts` file
+</div>
 
 ---
 
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|-----------|---------|
-| **React 19** | UI framework |
-| **TypeScript** | Type safety |
-| **Vite** | Build tool & dev server |
-| **Vanilla CSS** | Custom styling, animations, gradients |
-| **HTML Canvas** | Interactive background effects |
-| **Vercel** | Deployment & hosting |
+![Portfolio Preview](preview.png)
 
 ---
 
-## 📁 Project Structure
+## About Me
 
-```
-portfolio-react/
-├── public/
-│   ├── Jay_Tapodhan_Resume.pdf
-│   ├── favicon.svg
-│   └── icons.svg
-├── src/
-│   ├── components/
-│   │   ├── About.tsx          # About section with 3D card
-│   │   ├── BgCanvas.tsx       # Canvas background manager
-│   │   ├── Contact.tsx        # Contact section with links
-│   │   ├── Cursor.tsx         # Custom cursor component
-│   │   ├── Footer.tsx         # Footer
-│   │   ├── Hero.tsx           # Hero section with stats
-│   │   ├── Nav.tsx            # Navigation bar
-│   │   ├── Projects.tsx       # Project cards grid
-│   │   ├── ResumeModal.tsx    # PDF resume viewer
-│   │   └── Skills.tsx         # Skills with animated bars
-│   ├── data/
-│   │   └── portfolio.ts       # ⭐ All portfolio content here
-│   ├── hooks/
-│   │   ├── index.ts           # Scroll, counter & skill animations
-│   │   └── useSectionBg.ts    # Canvas background effects
-│   ├── types/
-│   │   └── index.ts           # TypeScript interfaces
-│   ├── App.tsx                # Root component
-│   ├── main.tsx               # Entry point
-│   └── index.css              # All styles
-├── index.html
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
-```
+4th-year Computer Engineering student at MBIT, CVM University with hands-on experience building AI-powered applications and full-stack web systems. From LLM-based chatbots to real-time task management platforms — I ship things that work.
+
+Previously interned at **Flaunch** as an AI Technology Intern and trained at **IBM** as a Full Stack Development Trainee.
 
 ---
 
-## 🚀 Getting Started
+## What I Work With
 
-### Prerequisites
-- **Node.js** v18+
-- **npm** v9+
-
-### Install & Run
-
-```bash
-# Clone the repo
-git clone https://github.com/Ethical-21/Jay-Tapodhan-Portfolio.git
-cd Jay-Tapodhan-Portfolio
-
-# Install dependencies
-npm install
-
-# Start dev server
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-### Build for Production
-
-```bash
-npm run build
-```
-
-Output goes to the `dist/` folder.
+`React.js` · `Node.js` · `Express.js` · `MongoDB` · `Python` · `Flask` · `LLaMA / Ollama` · `Firebase` · `REST APIs` · `Tailwind CSS` · `Git` · `SQL`
 
 ---
 
-## ✏️ Customization
+## Featured Projects
 
-Almost everything is controlled from **one file**: `src/data/portfolio.ts`
-
-| Section | What to Edit |
-|---------|-------------|
-| Name & Title | `name`, `title`, `tagline` |
-| Stats | `stats` array |
-| About | `about.paragraphs`, `about.chips` |
-| ID Card | `card.role`, `card.info` |
-| Projects | `projects` array |
-| Skills | `skills.categories` |
-| Contact Links | `contact.links` |
-| Footer | `footer` object |
-
-For styling changes, edit `src/index.css`.
+| Project | Description | Stack |
+|---------|-------------|-------|
+| **[TaskFlow](https://github.com/Ethical-21/taskflow-app)** | Production-grade team task manager with role-based assignment, real-time dashboards, and JWT auth. [Live ↗](https://taskflow-app-flame-kappa.vercel.app/) | React · Node · Express · MongoDB |
+| **Smart Recipe Generator** | AI-powered recipe & meal planner using GROQ API with Firebase auth. | React · Firebase · GROQ API |
+| **Reading Comprehension Assistant** | Offline AI tool that summarizes documents & generates questions using LLaMA 3.2 via Ollama. | Python · LLaMA 3.2 · NLP |
 
 ---
 
-## 📄 License
+## About This Site
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-## 🤝 Connect
-
-- **Email:** jaytapodhan21@gmail.com
-- **GitHub:** [@Ethical-21](https://github.com/Ethical-21)
-- **LinkedIn:** [Jay Tapodhan](https://www.linkedin.com/in/jaytapodhan/)
+This portfolio features cinematic scroll animations, interactive HTML Canvas backgrounds (lattice grids, hex networks, matrix rain), a custom cursor, seamless gradient-based section transitions, and a fully responsive layout — all built with **React 19 + TypeScript + Vite**.
 
 ---
 
-Built with ❤️ by **Jay Tapodhan**
+## Let's Connect
+
+I'm open to internships, collaborations, and projects at the edge of web and AI.
+
+- **Email** — [jaytapodhan21@gmail.com](mailto:jaytapodhan21@gmail.com)
+- **LinkedIn** — [linkedin.com/in/jaytapodhan](https://www.linkedin.com/in/jaytapodhan/)
+- **GitHub** — [github.com/Ethical-21](https://github.com/Ethical-21)
+
+---
+
+<div align="center">
+
+**Built with ❤️ by Jay Tapodhan**
+
+</div>
