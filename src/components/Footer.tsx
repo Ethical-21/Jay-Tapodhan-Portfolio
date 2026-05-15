@@ -4,7 +4,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
   return (
     <footer>
       <span style={{ color: 'var(--cyan)' }}>{footer.name}</span>
-      &nbsp;·&nbsp; {footer.role} &nbsp;·&nbsp; {footer.year}
+      &nbsp;·&nbsp; {footer.role}
     </footer>
   );
 }
