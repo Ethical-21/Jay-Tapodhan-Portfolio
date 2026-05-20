@@ -252,7 +252,8 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       }
 
       /* ── JT. phases ── */
-      if (t >= T_SETTLE && !jtVisible) {
+      // JT. appears during spiral — center of the universe
+      if (t >= T_SPIRAL * 0.3 && !jtVisible) {
         jtVisible = true;
         jtEl!.classList.add('loader-initials-show');
       }
@@ -260,26 +261,10 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         counterEl!.style.opacity = '0';
         counterEl!.style.transform = 'translateX(-50%) scale(2)';
       }
+      // JT. flies to nav position
       if (t >= T_JT_HOLD && !jtFlying) {
         jtFlying = true;
-        // Read exact nav logo position from DOM
-        const navLogo = document.querySelector('.nav-logo') as HTMLElement | null;
-        if (navLogo && jtEl) {
-          const rect = navLogo.getBoundingClientRect();
-          const fs = getComputedStyle(navLogo).fontSize;
-          jtEl!.classList.remove('loader-initials-show');
-          jtEl!.style.transition = 'top .7s cubic-bezier(0.16,1,0.3,1), left .7s cubic-bezier(0.16,1,0.3,1), transform .7s cubic-bezier(0.16,1,0.3,1), font-size .7s cubic-bezier(0.16,1,0.3,1), letter-spacing .7s cubic-bezier(0.16,1,0.3,1), color .5s .2s ease, text-shadow .5s ease';
-          jtEl!.style.top = rect.top + 'px';
-          jtEl!.style.left = rect.left + 'px';
-          jtEl!.style.transform = 'translate(0,0) scale(1)';
-          jtEl!.style.fontSize = fs;
-          jtEl!.style.letterSpacing = '2px';
-          jtEl!.style.color = 'var(--cyan)';
-          jtEl!.style.textShadow = 'none';
-        } else {
-          jtEl!.classList.remove('loader-initials-show');
-          jtEl!.classList.add('loader-initials-fly');
-        }
+        jtEl!.classList.add('loader-initials-fly');
       }
       if (t >= T_JT_FLY && !fading) {
         fading = true;

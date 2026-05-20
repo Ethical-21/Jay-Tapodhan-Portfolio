@@ -112,7 +112,7 @@ const portfolio: PortfolioData = {
       { icon: 'download', text: 'Resume',   url: '/Jay_Tapodhan_Resume.pdf', modal: true },
     ],
   },
-  footer: { name: 'JAY TAPODHAN', role: 'COMPUTER ENGINEERING', year: '2026' },
+  footer: { name: 'JAY TAPODHAN', role: 'COMPUTER ENGINEERING', year: '2025' },
 };
 
 export default portfolio;

@@ -60,6 +60,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;over
   top:1.2rem;left:3rem;
   transform:translate(0,0) scale(1);
   font-size:1.1rem;
+  font-weight:700;
   letter-spacing:2px;
   opacity:1;
   color:var(--cyan);
@@ -70,18 +71,19 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;over
     transform .7s cubic-bezier(0.16,1,0.3,1),
     font-size .7s cubic-bezier(0.16,1,0.3,1),
     letter-spacing .7s cubic-bezier(0.16,1,0.3,1),
+    font-weight .5s ease,
     color .5s .2s ease,
-    text-shadow .5s ease,
-    opacity .3s ease;
+    text-shadow .5s ease;
 }
 
-/* Fadeout — only background & canvas fade, JT stays visible */
+/* Fadeout — background, canvas, counter AND JT all fade together */
 .loader-fadeout{
   background:transparent;
   pointer-events:none;
 }
 .loader-fadeout .loader-canvas{opacity:0}
 .loader-fadeout .loader-counter{opacity:0}
+.loader-fadeout .loader-initials{opacity:0 !important;transition:opacity .4s .4s ease !important}
 
 /* Content wrapper */
 .app-content{
@@ -768,6 +770,7 @@ section>*:not(.section-bg):not(.deco-line):not(.hero-stats):not(.scroll-hint){po
   .hero-name{font-size:clamp(1.9rem,11vw,3.2rem)}
   .hero-tag{font-size:.65rem;letter-spacing:2px}
   .nav-logo{font-size:.95rem}
+  .loader-initials-fly{top:1rem;left:1.5rem;font-size:.95rem}
   .stat-num{font-size:1.8rem}
   .hero-stats{gap:1rem 1.5rem}
   .card-info{grid-template-columns:1fr}

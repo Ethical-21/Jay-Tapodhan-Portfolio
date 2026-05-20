@@ -17,7 +17,7 @@ import Contact     from './components/Contact';
 import Footer      from './components/Footer';
 
 export default function App() {
-  const [, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [loaderMounted, setLoaderMounted] = useState(true);
 
