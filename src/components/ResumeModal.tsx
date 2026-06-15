@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface Props {
   open: boolean;
@@ -27,7 +28,7 @@ export default function ResumeModal({ open, onClose, pdfUrl }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  return (
+  return createPortal(
     <div className={`resume-modal${open ? ' open' : ''}`} role="dialog" aria-modal="true">
       <div className="resume-modal-backdrop" onClick={onClose} />
       <div className="resume-modal-box">
@@ -53,6 +54,8 @@ export default function ResumeModal({ open, onClose, pdfUrl }: Props) {
           title="Jay Tapodhan Resume"
         />
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
+

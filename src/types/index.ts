@@ -14,10 +14,30 @@ export interface CardInfo {
   value: string;
 }
 
+export interface AboutBadge {
+  icon: string;
+  title: string;
+  detail: string;
+}
+
+export interface AboutExperience {
+  company: string;
+  role: string;
+  period: string;
+}
+
+export interface AboutLeadership {
+  icon: string;
+  role: string;
+  org: string;
+}
+
 export interface About {
   heading_lines: string[];
-  paragraphs: string[];
-  chips: string[];
+  intro: string;
+  badges: AboutBadge[];
+  experience: AboutExperience[];
+  leadership: AboutLeadership[];
 }
 
 export interface Card {
@@ -35,8 +55,11 @@ export interface Project {
   link: string;
   featured: boolean;
   coming_soon?: boolean;
+  deployingSoon?: boolean;
   liveUrl?: string;
   highlights?: string[];
+  reportUrl?: string;
+  videoUrl?: string;
 }
 
 export interface SkillItem {
