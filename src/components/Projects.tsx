@@ -191,7 +191,7 @@ function ProjectCard({
 }
 
 export default function Projects({ projects }: { projects: Project[] }) {
-  const [activeProject, setActiveProject] = useState(projects[0]?.num || '');
+  const [activeProject, setActiveProject] = useState<string>('');
 
   const rows = [];
   for (let i = 0; i < projects.length; i += 2) {
