@@ -1,0 +1,210 @@
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  background: #0a0d14; /* Deep dark blue/black matching the theme */
+  border-left: 1px solid rgba(0, 245, 255, 0.15);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-content.open {
+  transform: translateX(0);
+}
+
+.drawer-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.drawer-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.drawer-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 4rem 0;
+}
+
+.drawer-hero-img {
+  width: 100%;
+  height: 280px;
+  background: #111;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drawer-header {
+  padding: 2.5rem 2.5rem 1rem 2.5rem;
+}
+
+.drawer-num {
+  font-family: 'Orbitron', monospace;
+  color: var(--cyan);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.drawer-header h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--text);
+}
+
+.drawer-section {
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.drawer-section h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.drawer-section p {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.drawer-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.drawer-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.drawer-features .bullet {
+  margin-top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  flex-shrink: 0;
+}
+
+.drawer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.drawer-tag {
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.drawer-actions {
+  padding: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.drawer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.drawer-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.drawer-btn.primary {
+  background: rgba(0, 245, 255, 0.1);
+  border-color: rgba(0, 245, 255, 0.3);
+  color: var(--cyan);
+}
+
+.drawer-btn.primary:hover {
+  background: rgba(0, 245, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 245, 255, 0.15);
+}
+
+@media (max-width: 640px) {
+  .drawer-header { padding: 2rem 1.5rem 1rem 1.5rem; }
+  .drawer-section { padding: 1.5rem; }
+  .drawer-actions { padding: 1.5rem; }
+  .drawer-hero-img { height: 220px; }
+  .drawer-header h2 { font-size: 1.6rem; }
+}

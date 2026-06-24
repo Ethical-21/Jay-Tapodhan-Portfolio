@@ -82,7 +82,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       });
     }
 
-    let lastPct  = -1;
+    let lastDisplay = "";
     let exploded = false;
     let jtVisible  = false;
     let jtFlying   = false;
@@ -115,9 +115,25 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
         ctx.fillRect(0, 0, w, h);
       }
 
-      /* ── Counter ── */
+      /* ── Initializing Text ── */
       const pct = Math.max(0, Math.min(100, Math.floor((t / T_SETTLE) * 100)));
-      if (pct !== lastPct) { counterEl!.textContent = pct + '%'; lastPct = pct; }
+      const targetText = "INITIALIZING...";
+      
+      const charCount = Math.floor((pct / 100) * targetText.length);
+      const currentText = targetText.slice(0, charCount);
+      
+      // Blinking cursor (toggles every 300ms)
+      const showCursor = Math.floor(now / 300) % 2 === 0;
+      // Use non-breaking space when hidden to prevent layout shift
+      const cursor = showCursor ? "_" : "\u00A0";
+      
+      // If fully loaded, keep the cursor solid or keep blinking. Let's keep blinking for realism.
+      const display = currentText + cursor;
+      
+      if (display !== lastDisplay) {
+        counterEl!.textContent = display;
+        lastDisplay = display;
+      }
 
       /* ── Update particles ── */
       for (let i = 0; i < N; i++) {

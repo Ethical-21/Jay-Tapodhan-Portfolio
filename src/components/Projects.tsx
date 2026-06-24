@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { Project } from '../types';
 
 const icons: Record<string, ReactNode> = {
@@ -8,183 +8,196 @@ const icons: Record<string, ReactNode> = {
   bot: <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>,
 };
 
-function ComingSoonCard({ num }: { num: string }) {
+const actionIcons = {
+  github: <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>,
+  live: <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>,
+  report: <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>,
+};
+
+function isRealLink(url?: string) {
+  return Boolean(url && url !== '#');
+}
+
+function projectKind(project: Project) {
+  const title = project.title.toLowerCase();
+  if (title.includes('infra')) return 'infra';
+  if (title.includes('flavour')) return 'recipe';
+  if (title.includes('muse')) return 'chat';
+  if (title.includes('task')) return 'task';
+  return 'product';
+}
+
+function ProjectPreview({ project }: { project: Project }) {
+  const kind = projectKind(project);
+
   return (
-    <div className="project-card coming-soon-card">
-      <div className="project-num">{num}</div>
-      <div className="cs-overlay">
-        <div className="cs-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div className="cs-label">COMING SOON</div>
-        <div className="cs-sub">Something new is being crafted</div>
+    <div className={`project-preview project-preview-${kind}`} aria-hidden="true">
+      <div className="preview-topbar">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="preview-stage">
+        {kind === 'infra' && (
+          <>
+            <div className="preview-side-list">
+              <i /><i /><i />
+            </div>
+            <div className="preview-monitor-grid">
+              <b />
+              <b />
+              <b />
+              <b />
+            </div>
+            <div className="preview-chart">
+              <i style={{ height: '35%' }} />
+              <i style={{ height: '58%' }} />
+              <i style={{ height: '45%' }} />
+              <i style={{ height: '78%' }} />
+              <i style={{ height: '64%' }} />
+            </div>
+          </>
+        )}
+        {kind === 'recipe' && (
+          <>
+            <div className="preview-recipe-card primary" />
+            <div className="preview-recipe-card" />
+            <div className="preview-pill-row">
+              <i />
+              <i />
+              <i />
+            </div>
+            <div className="preview-ai-panel" />
+          </>
+        )}
+        {kind === 'chat' && (
+          <>
+            <div className="preview-chat-bubble left" />
+            <div className="preview-chat-bubble right" />
+            <div className="preview-chat-bubble left short" />
+            <div className="preview-input" />
+          </>
+        )}
+        {kind === 'task' && (
+          <>
+            <div className="preview-kanban-col"><i /><i /><i /></div>
+            <div className="preview-kanban-col"><i /><i /></div>
+            <div className="preview-kanban-col"><i /><i /><i /></div>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
-  if (project.coming_soon) return <ComingSoonCard num={project.num} />;
+function ProjectActions({ project }: { project: Project }) {
+  const actions = [
+    isRealLink(project.link) && { href: project.link, label: 'GitHub', icon: actionIcons.github, className: '' },
+    isRealLink(project.liveUrl) && { href: project.liveUrl, label: 'Live Demo', icon: actionIcons.live, className: 'live-link' },
+    isRealLink(project.reportUrl) && { href: project.reportUrl, label: 'Report', icon: actionIcons.report, className: 'report-link' },
+  ].filter(Boolean) as Array<{ href: string; label: string; icon: ReactNode; className: string }>;
 
-  const isExternal = project.link !== '#';
+  if (!actions.length) return null;
 
-  const featureIcons = [
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>,
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>,
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-  ];
+  return (
+    <div className="featured-actions">
+      {actions.map((action) => (
+        <a
+          href={action.href}
+          className={`project-link ${action.className}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          key={action.label}
+          onClick={(event) => event.stopPropagation()}
+        >
+          {action.icon}
+          {action.label}
+        </a>
+      ))}
+    </div>
+  );
+}
 
-  /* ── Featured card — expanded layout ── */
-  if (project.featured) {
+function ProjectCard({
+  project,
+  active,
+  onToggle,
+}: {
+  project: Project;
+  active: boolean;
+  onToggle: () => void;
+}) {
+  const featureItems = project.highlights?.slice(0, 4) || [];
 
-    return (
-      <div className="project-card featured">
-        <div className="project-num">{project.num}</div>
-        <div className="project-icon">{icons[project.icon]}</div>
-        <div className="featured-title-row">
-          <h3>{project.title}</h3>
-          {project.liveUrl && (
-            <span className="live-badge">
-              <span className="live-dot" />
-              LIVE
-            </span>
-          )}
+  return (
+    <article
+      className={`project-card ${project.featured ? 'featured' : ''}${active ? ' project-card-active' : ''}`}
+      onClick={onToggle}
+      tabIndex={0}
+      role="button"
+      aria-expanded={active}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onToggle();
+        }
+      }}
+    >
+      <div className="project-num">{project.num}</div>
+
+      <div className="project-content-wrapper">
+        <div className="project-media-column">
+          <ProjectPreview project={project} />
+          <ProjectActions project={project} />
         </div>
-        <p>{project.description}</p>
+        <div className="project-detail-column">
 
-        {project.highlights && project.highlights.length > 0 && (
-          <div className="featured-features-grid">
-            {project.highlights.map((h, i) => (
-              <div className="feature-chip" key={h}>
-                <span className="feature-chip-icon">{featureIcons[i % featureIcons.length]}</span>
-                <span className="feature-chip-text">{h}</span>
-              </div>
+          <div className="project-icon">{icons[project.icon]}</div>
+          <div className="featured-title-row">
+            <h3>{project.title}</h3>
+            {isRealLink(project.liveUrl) && (
+              <span className="live-badge">
+                <span className="live-dot" />
+                LIVE
+              </span>
+            )}
+          </div>
+          <p>{project.description}</p>
+
+          {featureItems.length > 0 && (
+            <div className="featured-features-grid">
+              {featureItems.map((highlight) => (
+                <span className="feature-chip" key={highlight}>
+                  <span className="feature-chip-icon">{icons[project.icon]}</span>
+                  <span className="feature-chip-text">{highlight}</span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="project-tags">
+            {project.tags.map((tag) => (
+              <span className="project-tag" key={tag}>{tag}</span>
             ))}
           </div>
-        )}
-
-        <div className="project-tags">
-          {project.tags.map((tag) => <span className="project-tag" key={tag}>{tag}</span>)}
-        </div>
-        <div className="featured-actions">
-          {isExternal && (
-            <a
-              href={project.link}
-              className="project-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-              GitHub →
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              className="project-link live-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Live Demo →
-            </a>
-          )}
-          {project.reportUrl && (
-            <a
-              href={project.reportUrl}
-              className="project-link report-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
-              Report →
-            </a>
-          )}
-          {project.videoUrl && (
-            <a
-              href={project.videoUrl}
-              className="project-link video-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Launch Video →
-            </a>
-          )}
         </div>
       </div>
-    );
-  }
 
-  /* ── Standard card ── */
-  return (
-    <div className="project-card">
-      <div className="project-num">{project.num}</div>
-      <div className="project-icon">{icons[project.icon]}</div>
-      <h3>{project.title}</h3>
-      <p>{project.description}</p>
-
-      {project.highlights && project.highlights.length > 0 && (
-        <div className="compact-features">
-          {project.highlights.map((h, i) => (
-            <span className="compact-feature" key={h}>
-              {i > 0 && <span className="compact-sep">·</span>}
-              {h}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="project-tags">
-        {project.tags.map((tag) => <span className="project-tag" key={tag}>{tag}</span>)}
-      </div>
-      <div className="featured-actions">
-        {project.deployingSoon ? (
-          <>
-            <span className="project-link soon-link">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-              GitHub · Soon
-            </span>
-            <span className="project-link soon-link">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Live Demo · Soon
-            </span>
-          </>
-        ) : (
-          <>
-            {isExternal && (
-              <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                GitHub →
-              </a>
-            )}
-            {project.liveUrl && (
-              <a href={project.liveUrl} className="project-link live-link" target="_blank" rel="noopener noreferrer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                Live Demo →
-              </a>
-            )}
-          </>
-        )}
-        {project.reportUrl && (
-          <a href={project.reportUrl} className="project-link report-link" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
-            Report →
-          </a>
-        )}
-        {project.videoUrl && (
-          <a href={project.videoUrl} className="project-link video-link" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Launch Video →
-          </a>
-        )}
-      </div>
-    </div>
+      <button className="project-expand-hint" type="button" onClick={(event) => { event.stopPropagation(); onToggle(); }}>
+        {active ? 'Collapse' : 'View Details'} <span>→</span>
+      </button>
+    </article>
   );
 }
 
 export default function Projects({ projects }: { projects: Project[] }) {
+  const [activeProject, setActiveProject] = useState(projects[0]?.num || '');
+
+  const rows = [];
+  for (let i = 0; i < projects.length; i += 2) {
+    rows.push(projects.slice(i, i + 2));
+  }
+
   return (
     <section id="projects">
       <canvas className="section-bg" id="projects-bg" />
@@ -193,7 +206,21 @@ export default function Projects({ projects }: { projects: Project[] }) {
         <h2>Projects</h2>
       </div>
       <div className="projects-grid reveal">
-        {projects.map((p) => <ProjectCard project={p} key={p.num} />)}
+        {rows.map((row, rowIndex) => {
+          const isRowActive = row.some((p) => p.num === activeProject);
+          return (
+            <div className={`project-row ${isRowActive ? 'row-active' : ''}`} key={rowIndex}>
+              {row.map((project) => (
+                <ProjectCard
+                  project={project}
+                  key={project.num}
+                  active={activeProject === project.num}
+                  onToggle={() => setActiveProject((current) => current === project.num ? '' : project.num)}
+                />
+              ))}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
