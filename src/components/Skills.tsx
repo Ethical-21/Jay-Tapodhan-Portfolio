@@ -49,23 +49,28 @@ export default function Skills(_props: Pick<PortfolioData, 'skills'>) {
           A readable map of how my stack turns an idea into a shipped product.
         </p>
 
-        <div className="build-map reveal">
-          {buildMap.map((item) => (
-            <article className="build-stage" key={item.stage}>
-              <div className="build-stage-index">{item.stage}</div>
-              <div className="build-stage-core">
-                <span className="build-pulse" />
-                <h3>{item.title}</h3>
-                <p>{item.subtitle}</p>
-              </div>
-              <div className="build-tool-cloud">
-                {item.tools.map((tool) => (
-                  <span key={tool}>{tool}</span>
-                ))}
-              </div>
-              <div className="build-result">{item.result}</div>
-            </article>
-          ))}
+        <div className="horizontal-process reveal">
+          <div className="horizontal-line" />
+          <div className="horizontal-steps">
+            {buildMap.map((item) => (
+              <article className="h-step" key={item.stage}>
+                <div className="h-dot" />
+                <div className="h-content">
+                  <span className="h-num">{item.stage}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.subtitle}</p>
+                  <div className="h-tools">
+                    {item.tools.map((tool) => (
+                      <span key={tool}>{tool}</span>
+                    ))}
+                  </div>
+                  <div className="h-result">
+                    {item.result}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

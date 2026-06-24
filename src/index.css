@@ -793,165 +793,172 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .skills-inner h2{font-family:'Orbitron',monospace;font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1rem}
 .skills-intro{font-size:1.1rem;color:var(--muted);max-width:600px;margin-bottom:4rem;line-height:1.6}
 
-.build-map {
+.horizontal-process {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+.horizontal-line {
+  position: absolute;
+  top: 13px; /* Center of the dot */
+  left: 2rem;
+  right: 2rem;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--cyan), transparent);
+  opacity: 0.3;
+}
+
+.horizontal-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+
+.h-step {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  position: relative;
-  padding-left: 20px;
+  align-items: center;
+  text-align: center;
 }
 
-.build-map::before {
+.h-dot {
+  width: 20px;
+  height: 20px;
+  background: var(--bg);
+  border: 3px solid var(--cyan);
+  border-radius: 50%;
+  margin-bottom: 2rem;
+  z-index: 2;
+  box-shadow: 0 0 15px var(--cyan);
+  transition: all 0.4s;
+  position: relative;
+}
+
+/* Connecting line to the card */
+.h-step::before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 20px;
+  top: 26px; /* bottom of the dot */
+  left: 50%;
+  transform: translateX(-50%);
   width: 2px;
-  background: linear-gradient(to bottom, transparent, rgba(0, 245, 255, 0.4), transparent);
+  height: 32px; /* 2rem gap */
+  background: rgba(0, 245, 255, 0.3);
+  transition: all 0.4s;
+  z-index: 0; /* Behind the card and dot */
 }
 
-.build-stage {
+.h-step:hover .h-dot {
+  background: var(--cyan);
+  transform: scale(1.3);
+  box-shadow: 0 0 25px var(--cyan);
+}
+.h-step:hover::before {
+  background: var(--cyan);
+}
+
+.h-content {
   position: relative;
-  margin-left: 40px;
   background: rgba(10, 15, 25, 0.6);
   border: 1px solid rgba(0, 245, 255, 0.1);
   border-radius: 16px;
-  padding: 2.5rem;
-  display: grid;
-  grid-template-columns: 220px 1fr 280px;
-  gap: 2.5rem;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   backdrop-filter: blur(10px);
+  z-index: 1; /* Render above the connecting line */
 }
 
-.build-stage::before {
-  content: '';
+.h-step:hover .h-content {
+  background: rgba(15, 20, 35, 0.85);
+  border-color: rgba(0, 245, 255, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 245, 255, 0.1), inset 0 0 0 1px rgba(0, 245, 255, 0.05);
+}
+
+.h-num {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(0,245,255,0.04), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.build-stage:hover {
-  background: rgba(8, 16, 30, 0.7);
-  border-color: rgba(0, 245, 255, 0.3);
-  transform: translateX(10px);
-  box-shadow: 0 10px 40px rgba(0, 245, 255, 0.05);
-}
-
-.build-stage:hover::before {
-  opacity: 1;
-}
-
-.build-stage-index {
-  position: absolute;
-  top: -15px;
-  right: 2rem;
+  top: 0.5rem;
+  right: 1rem;
   font-family: 'Orbitron', monospace;
-  font-size: 5.5rem;
+  font-size: 3rem;
   font-weight: 900;
   color: rgba(255, 255, 255, 0.03);
   line-height: 1;
   pointer-events: none;
   transition: all 0.4s;
-  z-index: 0;
 }
 
-.build-stage:hover .build-stage-index {
-  color: rgba(0, 245, 255, 0.06);
-  transform: scale(1.1) translate(-10px, 10px);
+.h-step:hover .h-num {
+  color: rgba(0, 245, 255, 0.08);
+  transform: scale(1.1);
 }
 
-.build-stage-core {
-  position: relative;
-  z-index: 2;
-}
-
-.build-pulse {
-  position: absolute;
-  left: calc(-2.5rem - 40px - 6px); /* Centers the 14px pulse precisely on the 2px timeline */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  background: var(--cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan);
-  z-index: 3;
-}
-
-.build-pulse::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 1px solid var(--cyan);
-  animation: pulse 2s infinite cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.build-stage-core h3 {
+.h-content h3 {
   font-family: 'Orbitron', monospace;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text);
+  color: #fff;
   margin-bottom: 0.5rem;
-  letter-spacing: 1px;
 }
 
-.build-stage-core p {
-  font-size: 0.9rem;
+.h-content p {
+  font-size: 0.85rem;
   color: var(--cyan);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
-.build-tool-cloud {
+.h-tools {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  position: relative;
-  z-index: 2;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: auto; /* Pushes result to bottom */
 }
 
-.build-tool-cloud span {
+.h-tools span {
   font-family: 'Orbitron', monospace;
   font-size: 0.75rem;
-  padding: 0.4rem 0.8rem;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 0.3rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  color: var(--text);
+  color: var(--muted);
   transition: all 0.3s;
 }
 
-.build-stage:hover .build-tool-cloud span {
-  border-color: rgba(0, 245, 255, 0.3);
-  background: rgba(0, 245, 255, 0.05);
+.h-step:hover .h-tools span {
+  border-color: rgba(0, 245, 255, 0.4);
+  background: rgba(0, 245, 255, 0.08);
   color: #fff;
 }
 
-.build-result {
-  font-size: 0.95rem;
+.h-result {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
   color: var(--muted);
-  line-height: 1.6;
-  border-left: 2px solid rgba(255, 184, 0, 0.3);
-  padding-left: 1.5rem;
-  position: relative;
-  z-index: 2;
+  line-height: 1.4;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+  transition: all 0.3s;
+  width: 100%;
 }
 
-.build-stage:hover .build-result {
-  border-left-color: var(--amber);
-  color: rgba(255,255,255,0.85);
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(2.5); opacity: 0; }
+.h-step:hover .h-result {
+  border-top-color: rgba(255, 184, 0, 0.3);
+  color: rgba(255,255,255,0.9);
 }
 
 /* ── CONTACT ───────────────────────────────────────────────── */
@@ -1198,15 +1205,42 @@ section>*:not(.section-bg):not(.deco-line):not(.hero-stats):not(.scroll-hint){po
   .project-card-active .project-media-column { width: 100%; }
 
   /* How I Build: Tablet */
-  .build-stage {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .horizontal-line {
+    top: 0;
+    bottom: 0;
+    left: 23px; /* Center of the dot */
+    width: 2px;
+    height: auto;
+    background: linear-gradient(to bottom, transparent, var(--cyan), transparent);
   }
-  .build-result {
-    border-left: none;
-    border-top: 2px solid rgba(255, 184, 0, 0.3);
-    padding-left: 0;
-    padding-top: 1rem;
+  .horizontal-steps {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-left: 10px; /* Give room for the dot */
+  }
+  .h-step {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .h-step::before {
+    top: calc(2.5rem + 13px); /* align with dot center */
+    left: 26px; /* right edge of dot */
+    width: 2rem; /* gap to card */
+    height: 2px;
+    transform: translateY(-50%);
+  }
+  .h-dot {
+    margin-bottom: 0;
+    margin-right: 2rem;
+    flex-shrink: 0;
+    margin-top: 2.5rem;
+  }
+  .h-tools {
+    justify-content: flex-start;
+  }
+  .h-num {
+    top: 1rem;
   }
 }
 
@@ -1297,18 +1331,20 @@ section>*:not(.section-bg):not(.deco-line):not(.hero-stats):not(.scroll-hint){po
   .projects-header{margin-bottom:2.5rem}
 
   /* How I Build: Mobile */
-  .build-map {
-    border-left: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-  .build-pulse {
-    display: none;
-  }
-  .build-stage-core {
+  .horizontal-steps {
     padding-left: 0;
   }
-  .build-stage-index {
+  .horizontal-line {
+    left: 13px; /* Center of dot */
+  }
+  .h-step::before {
+    left: 26px;
+    width: 1.5rem;
+  }
+  .h-dot {
+    margin-right: 1.5rem;
+  }
+  .h-num {
     font-size: 2.5rem;
   }
 
