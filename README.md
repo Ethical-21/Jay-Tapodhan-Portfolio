@@ -97,10 +97,8 @@ An AI-powered recipe platform using a 3-tier resolution engine (Spoonacular → 
 
 Currently expanding into DevOps and seeking internship or full-time roles where engineering depth and product ownership drive meaningful impact.
 
-- 📧 **Email:** [jaytapodhan21@gmail.com](mailto:jaytapodhan21@gmail.com)
-- 💼 **LinkedIn:** [linkedin.com/in/jaytapodhan](https://www.linkedin.com/in/jaytapodhan/)
-- 👨‍💻 **GitHub:** [github.com/Ethical-21](https://github.com/Ethical-21)
-
+- 📧 **Email:** [jaytapodhan21@gmail.com](mailto:jaytapodhan21@gmail.com)   💼 **LinkedIn:** [linkedin.com/in/jaytapodhan (https://www.linkedin.com/in/jaytapodhan/)
+  
 </div>
 
 <br />
