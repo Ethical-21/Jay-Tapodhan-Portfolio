@@ -19,46 +19,9 @@ const fadeScale = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.65, ease } },
 };
 
-/* ── Glitch Text Hook ── */
-function useGlitchText(finalText: string, shouldStart: boolean, delay = 0) {
-  const [display, setDisplay] = useState(finalText);
-  const chars = "█▓░▒╬╠╣▀▄■□◆◇●";
-
-  useEffect(() => {
-    if (!shouldStart) return;
-    let frame = 0;
-    const totalFrames = 12;
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        frame++;
-        if (frame >= totalFrames) {
-          setDisplay(finalText);
-          clearInterval(interval);
-          return;
-        }
-        const progress = frame / totalFrames;
-        setDisplay(
-          finalText
-            .split("")
-            .map((char, i) => {
-              if (char === " ") return " ";
-              if (i / finalText.length < progress) return char;
-              return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join("")
-        );
-      }, 50);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [shouldStart, finalText, delay]);
-
-  return display;
-}
-
 /* ── Typewriter Hook ── */
-function useTypewriter(text: string, shouldStart: boolean, speed = 30, delay = 0) {
+function useTypewriter(text: string, shouldStart: boolean, speed = 20, delay = 0) {
   const [display, setDisplay] = useState("");
-
   useEffect(() => {
     if (!shouldStart) return;
     let i = 0;
@@ -71,7 +34,6 @@ function useTypewriter(text: string, shouldStart: boolean, speed = 30, delay = 0
     }, delay);
     return () => clearTimeout(timer);
   }, [shouldStart, text, speed, delay]);
-
   return display;
 }
 
@@ -131,13 +93,17 @@ function Icon({ name, className }: { name: string; className?: string }) {
   );
 }
 
-/* ── Glitch Fact Component ── */
-function GlitchFact({ label, value, inView, delay }: { label: string; value: string; inView: boolean; delay: number }) {
-  const glitchedValue = useGlitchText(value, inView, delay);
+/* ── OS Window Chrome ── */
+function WindowBar({ title, variant = "default" }: { title: string; variant?: string }) {
   return (
-    <div className="about-fact">
-      <label>{label}</label>
-      <span className="glitch-text">{glitchedValue}</span>
+    <div className={`os-window-bar ${variant}`}>
+      <div className="os-window-dots">
+        <span className="dot-close" />
+        <span className="dot-min" />
+        <span className="dot-max" />
+      </div>
+      <span className="os-window-title">{title}</span>
+      <div className="os-window-dots-spacer" />
     </div>
   );
 }
@@ -145,148 +111,189 @@ function GlitchFact({ label, value, inView, delay }: { label: string; value: str
 export default function About({ about, card, name }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.08 });
+  const typedIntro = useTypewriter(about.intro, inView, 12, 600);
 
-  const typedIntro = useTypewriter(about.intro, inView, 15, 800);
+  /* Mouse parallax for subtle depth */
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMouse({ x, y });
+    };
+    window.addEventListener("mousemove", handler);
+    return () => window.removeEventListener("mousemove", handler);
+  }, []);
 
   return (
     <section id="about">
       <canvas className="section-bg" id="about-bg" />
 
-      {/* ── Floating "CLASSIFIED" watermarks ── */}
-      <div className="dossier-watermarks" aria-hidden="true">
-        <span className="watermark wm-1">CLASSIFIED</span>
-        <span className="watermark wm-2">TOP SECRET</span>
-        <span className="watermark wm-3">CONFIDENTIAL</span>
-      </div>
+      {/* ── CRT Scanline Overlay ── */}
+      <div className="os-scanlines" aria-hidden="true" />
+      {/* ── Grid background ── */}
+      <div className="os-grid-bg" aria-hidden="true" />
 
       <motion.div
-        className="about-grid dossier-theme"
+        className="about-grid os-desktop"
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.08 }}
         ref={sectionRef}
       >
-        {/* ── 1. Holographic ID Badge ── */}
-        <motion.div className="about-card about-id dossier-id" variants={fadeScale}>
-          <div className="dossier-stamp">PERSONNEL FILE</div>
-          <div className="id-photo-wrap">
-            <img
-              src="/jay.jpg"
-              alt={name.full}
-              className="id-photo"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-                const fb = e.currentTarget.nextElementSibling as HTMLElement;
-                if (fb) fb.style.display = "flex";
-              }}
-            />
-            <div className="id-photo-fallback" style={{ display: "none" }}>
-              {name.initials}
-            </div>
-            {/* Scan-line sweep */}
-            <div className="id-scanline" />
-            {/* Fingerprint overlay on hover */}
-            <div className="id-fingerprint" />
-          </div>
-          <h3 className="id-name">{name.full}</h3>
-          <div className="id-role">{card.role}</div>
-          <div className="dossier-id-code">ID: JT-{new Date().getFullYear()}-ALPHA</div>
-        </motion.div>
-
-        {/* ── 2. Dossier Profile — decrypting text ── */}
-        <motion.div className="about-card about-profile dossier-profile" variants={fadeUp}>
-          <div className="section-tag">
-            <span className="dossier-blink">[DECRYPTED]</span> Subject Briefing
-          </div>
-          <h2 className="about-heading">
-            {about.heading_lines.map((line, i) =>
-              i === about.heading_lines.length - 1 ? (
-                <span key={i} className="heading-accent">
-                  {line}
-                </span>
-              ) : (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ),
-            )}
-          </h2>
-          <p className="about-intro dossier-typed">
-            {typedIntro}
-            <span className="typing-cursor">▌</span>
-          </p>
-          <div className="about-facts">
-            {card.info.map((item, i) => (
-              <GlitchFact
-                key={item.label}
-                label={item.label}
-                value={item.value}
-                inView={inView}
-                delay={1200 + i * 400}
+        {/* ── 1. user_profile.exe ── */}
+        <motion.div
+          className="about-card about-id os-window"
+          variants={fadeScale}
+          style={{ transform: `translate(${mouse.x * 3}px, ${mouse.y * 2}px)` }}
+        >
+          <WindowBar title="user_profile.exe" />
+          <div className="os-window-body">
+            <div className="id-photo-wrap">
+              <img
+                src="/jay.jpg"
+                alt={name.full}
+                className="id-photo"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const fb = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fb) fb.style.display = "flex";
+                }}
               />
-            ))}
+              <div className="id-photo-fallback" style={{ display: "none" }}>
+                {name.initials}
+              </div>
+            </div>
+            <h3 className="id-name">{name.full}</h3>
+            <div className="id-role">{card.role}</div>
+            <div className="os-status-bar">
+              <span className="os-status-dot" /> Online
+            </div>
           </div>
         </motion.div>
 
-        {/* ── 3-6. Clearance Level Cards ── */}
+        {/* ── 2. terminal.sh — intro types out ── */}
+        <motion.div
+          className="about-card about-profile os-window os-terminal"
+          variants={fadeUp}
+          style={{ transform: `translate(${mouse.x * -2}px, ${mouse.y * -1.5}px)` }}
+        >
+          <WindowBar title="terminal.sh" variant="terminal" />
+          <div className="os-window-body os-terminal-body">
+            <div className="section-tag">
+              <span className="os-prompt">$</span> cat about_me.txt
+            </div>
+            <h2 className="about-heading">
+              {about.heading_lines.map((line, i) =>
+                i === about.heading_lines.length - 1 ? (
+                  <span key={i} className="heading-accent">{line}</span>
+                ) : (
+                  <span key={i}>{line}<br /></span>
+                ),
+              )}
+            </h2>
+            <p className="about-intro os-typed-text">
+              {typedIntro}
+              <span className="os-cursor">█</span>
+            </p>
+            <div className="about-facts os-facts-grid">
+              {card.info.map((item) => (
+                <div className="about-fact" key={item.label}>
+                  <label><span className="os-prompt">→</span> {item.label}</label>
+                  <span>{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── 3-6. Achievement Notifications ── */}
         {about.badges.map((b, i) => (
           <motion.div
-            className="about-card about-badge dossier-clearance"
+            className="about-card about-badge os-window os-notification"
             key={i}
             variants={fadeUp}
+            style={{ transform: `translate(${mouse.x * (1 + i * 0.5)}px, ${mouse.y * (1 + i * 0.3)}px)` }}
           >
-            <div className="clearance-level">LEVEL 0{i + 1}</div>
-            <Icon name={b.icon} className="badge-icon" />
-            <div className="badge-title">{b.title}</div>
-            <div className="badge-detail">{b.detail}</div>
-            <div className="clearance-status">
-              <span className="status-dot" />
-              VERIFIED
+            <WindowBar title={`achievement_${String(i + 1).padStart(2, "0")}.log`} />
+            <div className="os-window-body os-notif-body">
+              <div className="os-notif-header">
+                <Icon name={b.icon} className="badge-icon" />
+                <span className="os-notif-tag">★ UNLOCKED</span>
+              </div>
+              <div className="badge-title">{b.title}</div>
+              <div className="badge-detail">{b.detail}</div>
             </div>
           </motion.div>
         ))}
 
-        {/* ── 7. Mission Log ── */}
-        <motion.div className="about-card about-experience dossier-missions" variants={fadeUp}>
-          <div className="card-label">
-            <span className="dossier-blink">[●]</span> Mission Log
-          </div>
-          <div className="exp-list">
-            {about.experience.map((e, i) => (
-              <div className="exp-item mission-entry" key={i}>
-                <div className="mission-status">
-                  <span className={`mission-indicator ${i === 0 ? "active" : "completed"}`} />
+        {/* ── 7. career_log.db ── */}
+        <motion.div
+          className="about-card about-experience os-window"
+          variants={fadeUp}
+          style={{ transform: `translate(${mouse.x * -1.5}px, ${mouse.y * 1}px)` }}
+        >
+          <WindowBar title="career_log.db" />
+          <div className="os-window-body">
+            <div className="os-db-header">
+              <span className="os-db-col">ENTITY</span>
+              <span className="os-db-col">ROLE</span>
+              <span className="os-db-col">PERIOD</span>
+            </div>
+            <div className="exp-list">
+              {about.experience.map((e, i) => (
+                <div className="exp-item os-db-row" key={i}>
+                  <div className="exp-content">
+                    <div className="exp-company">{e.company}</div>
+                    <div className="exp-role">{e.role}</div>
+                  </div>
+                  <div className="exp-period">{e.period}</div>
                 </div>
-                <div className="exp-content">
-                  <div className="exp-company">{e.company}</div>
-                  <div className="exp-role">{e.role}</div>
-                </div>
-                <div className="exp-period mission-date">{e.period}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
 
-        {/* ── 8. Leadership & Community ── */}
-        <motion.div className="about-card about-leadership dossier-missions" variants={fadeUp}>
-          <div className="card-label">
-            <span className="dossier-blink">[●]</span> Leadership & Community
-          </div>
-          <div className="lead-list">
-            {about.leadership.map((l, i) => (
-              <div className="lead-item" key={i}>
-                <Icon name={l.icon} className="lead-icon" />
-                <div className="lead-content">
-                  <div className="lead-role">{l.role}</div>
-                  <div className="lead-org">{l.org}</div>
+        {/* ── 8. network.sys ── */}
+        <motion.div
+          className="about-card about-leadership os-window"
+          variants={fadeUp}
+          style={{ transform: `translate(${mouse.x * 2}px, ${mouse.y * -1}px)` }}
+        >
+          <WindowBar title="network.sys" />
+          <div className="os-window-body">
+            <div className="card-label">Connections & Leadership</div>
+            <div className="lead-list">
+              {about.leadership.map((l, i) => (
+                <div className="lead-item" key={i}>
+                  <Icon name={l.icon} className="lead-icon" />
+                  <div className="lead-content">
+                    <div className="lead-role">{l.role}</div>
+                    <div className="lead-org">{l.org}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
       </motion.div>
+
+      {/* ── Taskbar ── */}
+      <div className="os-taskbar">
+        <div className="os-taskbar-start">
+          <span className="os-taskbar-logo">JT://OS</span>
+        </div>
+        <div className="os-taskbar-apps">
+          <span className="os-taskbar-app active">user_profile</span>
+          <span className="os-taskbar-app active">terminal</span>
+          <span className="os-taskbar-app">career_log</span>
+          <span className="os-taskbar-app">network</span>
+        </div>
+        <div className="os-taskbar-clock">
+          {new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+        </div>
+      </div>
     </section>
   );
 }

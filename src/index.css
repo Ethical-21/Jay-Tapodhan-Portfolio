@@ -418,276 +418,277 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .lead-org{font-size:.68rem;color:var(--muted);margin-top:1px}
 
 /* ══════════════════════════════════════════════════════════════
-   DOSSIER THEME — "The Classified Intel File"
+   OS DESKTOP THEME — "The Operating System"
    ══════════════════════════════════════════════════════════════ */
 
-/* ── Floating watermarks ── */
-.dossier-watermarks {
+/* ── CRT Scanline Overlay ── */
+.os-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ── Subtle holographic grid ── */
+.os-grid-bg {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── OS Window Chrome ── */
+.os-window {
+  border-radius: 12px !important;
   overflow: hidden;
+  padding: 0 !important;
 }
-.watermark {
-  position: absolute;
-  font-family: 'Orbitron', monospace;
-  font-weight: 900;
-  color: rgba(0, 245, 255, 0.015);
-  letter-spacing: 12px;
-  white-space: nowrap;
-  user-select: none;
+.os-window-bar {
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
-.wm-1 {
-  top: 15%;
-  left: -5%;
-  font-size: 5rem;
-  transform: rotate(-15deg);
-  animation: wmDrift1 25s linear infinite;
+.os-window-bar.terminal {
+  background: rgba(0, 20, 0, 0.6);
+  border-bottom-color: rgba(0, 255, 100, 0.15);
 }
-.wm-2 {
-  top: 55%;
-  right: -10%;
-  font-size: 6rem;
-  transform: rotate(10deg);
-  animation: wmDrift2 30s linear infinite;
+.os-window-dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
 }
-.wm-3 {
-  bottom: 10%;
-  left: 20%;
-  font-size: 4rem;
-  transform: rotate(-8deg);
-  animation: wmDrift3 20s linear infinite;
-}
-@keyframes wmDrift1 {
-  0%, 100% { transform: rotate(-15deg) translateX(0); }
-  50% { transform: rotate(-15deg) translateX(40px); }
-}
-@keyframes wmDrift2 {
-  0%, 100% { transform: rotate(10deg) translateX(0); }
-  50% { transform: rotate(10deg) translateX(-50px); }
-}
-@keyframes wmDrift3 {
-  0%, 100% { transform: rotate(-8deg) translateY(0); }
-  50% { transform: rotate(-8deg) translateY(-30px); }
-}
-
-/* ── Dossier ID Badge Card ── */
-.dossier-id {
-  position: relative;
-}
-.dossier-stamp {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: var(--amber);
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 184, 0, 0.3);
-  padding: 3px 10px;
-  margin-bottom: 1.2rem;
-  display: inline-block;
-  position: relative;
-}
-.dossier-stamp::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border: 1px dashed rgba(255, 184, 0, 0.15);
-}
-
-/* ── Holographic scan-line sweep ── */
-.id-scanline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-  opacity: 0.7;
-  animation: scanSweep 3s ease-in-out infinite;
-  z-index: 5;
-  box-shadow: 0 0 15px var(--cyan), 0 0 30px rgba(0, 245, 255, 0.3);
-}
-@keyframes scanSweep {
-  0% { top: 0; opacity: 0.7; }
-  50% { top: calc(100% - 3px); opacity: 0.4; }
-  51% { opacity: 0; }
-  100% { top: 0; opacity: 0; }
-}
-
-/* ── Fingerprint overlay on hover ── */
-.id-fingerprint {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  opacity: 0;
-  transition: opacity 0.5s;
-  background:
-    radial-gradient(ellipse at center, transparent 25%, rgba(0, 245, 255, 0.02) 26%, transparent 27%),
-    radial-gradient(ellipse at center, transparent 33%, rgba(0, 245, 255, 0.02) 34%, transparent 35%),
-    radial-gradient(ellipse at center, transparent 41%, rgba(0, 245, 255, 0.02) 42%, transparent 43%),
-    radial-gradient(ellipse at center, transparent 49%, rgba(0, 245, 255, 0.02) 50%, transparent 51%),
-    radial-gradient(ellipse at center, transparent 57%, rgba(0, 245, 255, 0.02) 58%, transparent 59%),
-    radial-gradient(ellipse at center, transparent 65%, rgba(0, 245, 255, 0.02) 66%, transparent 67%);
-  border-radius: inherit;
-  pointer-events: none;
-}
-.id-photo-wrap:hover .id-fingerprint {
-  opacity: 1;
-  animation: fingerprintPulse 2s ease-in-out infinite;
-}
-@keyframes fingerprintPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* ── Dossier ID code ── */
-.dossier-id-code {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.55rem;
-  letter-spacing: 3px;
-  color: rgba(0, 245, 255, 0.3);
-  margin-top: 0.8rem;
-  text-transform: uppercase;
-}
-
-/* ── Dossier profile card ── */
-.dossier-profile {
-  position: relative;
-}
-.dossier-profile::before {
-  content: '';
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  width: 8px;
-  height: 8px;
+.os-window-dots span {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan);
-  animation: statusBlink 2s ease-in-out infinite;
+  display: block;
 }
-@keyframes statusBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
-
-/* ── [DECRYPTED] blink ── */
-.dossier-blink {
-  color: var(--cyan);
-  animation: dossierBlink 1.5s step-end infinite;
-}
-@keyframes dossierBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ── Typing cursor ── */
-.typing-cursor {
-  color: var(--cyan);
-  animation: cursorBlink 0.8s step-end infinite;
-  font-weight: 100;
-}
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ── Glitch text ── */
-.glitch-text {
+.dot-close { background: #ff5f57; }
+.dot-min { background: #ffbd2e; }
+.dot-max { background: #28c840; }
+.os-window-title {
   font-family: 'Orbitron', monospace;
-}
-
-/* ── Clearance Level Cards ── */
-.dossier-clearance {
-  position: relative;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: none;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
-.clearance-level {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.55rem;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: var(--amber);
-  margin-bottom: 0.8rem;
-  opacity: 0.7;
+.os-window-dots-spacer {
+  width: 44px; /* Balance the dots on the left */
+  flex-shrink: 0;
 }
-.clearance-status {
+
+/* ── Window Body ── */
+.os-window-body {
+  padding: 1.75rem;
+}
+
+/* ── OS Status Bar (in profile window) ── */
+.os-status-bar {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   font-family: 'Orbitron', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 3px;
-  color: rgba(0, 245, 255, 0.5);
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  color: #00ff88;
   text-transform: uppercase;
 }
-.status-dot {
+.os-status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #00ff88;
   box-shadow: 0 0 8px #00ff88;
-  animation: statusBlink 2s ease-in-out infinite;
+  animation: osPulse 2s ease-in-out infinite;
+}
+@keyframes osPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-/* ── Dossier Clearance corner-cut decoration ── */
-.dossier-clearance::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(135deg, transparent 50%, rgba(0, 245, 255, 0.08) 50%);
-  pointer-events: none;
+/* ── Terminal Body ── */
+.os-terminal-body {
+  background: rgba(0, 8, 0, 0.3);
+}
+.os-terminal-body .section-tag {
+  color: #00ff88;
+  margin-bottom: 1rem;
+}
+.os-terminal-body .section-tag::before {
+  background: #00ff88;
+}
+.os-prompt {
+  color: #00ff88;
+  font-weight: 700;
+  margin-right: 0.3rem;
+}
+.os-typed-text {
+  font-family: 'Courier New', monospace;
+  color: rgba(0, 255, 100, 0.7);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+.os-cursor {
+  color: #00ff88;
+  animation: osCursorBlink 0.7s step-end infinite;
+  font-size: 0.9rem;
+}
+@keyframes osCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-/* ── Mission Log entries ── */
-.dossier-missions .mission-entry {
-  position: relative;
+/* Terminal facts override */
+.os-facts-grid {
+  border-top-color: rgba(0, 255, 100, 0.15) !important;
 }
-.mission-status {
-  flex-shrink: 0;
+.os-facts-grid .about-fact label {
+  color: rgba(0, 255, 100, 0.5);
+}
+.os-facts-grid .about-fact span {
+  color: #00ff88;
+  font-family: 'Orbitron', monospace;
+}
+
+/* ── Notification Cards (Achievements) ── */
+.os-notification {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.os-notif-body {
+  text-align: center;
+}
+.os-notif-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
 }
-.mission-indicator {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.os-notif-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  color: var(--amber);
+  background: rgba(255, 184, 0, 0.08);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* ── Database Viewer (Career Log) ── */
+.os-db-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+  background: rgba(0, 245, 255, 0.02);
+  border-radius: 4px;
+}
+.os-db-col {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: rgba(0, 245, 255, 0.4);
+  text-transform: uppercase;
+}
+.os-db-row {
+  border-left: 2px solid transparent;
+  transition: all 0.3s;
+}
+.os-db-row:hover {
+  border-left-color: var(--cyan);
+  background: rgba(0, 245, 255, 0.03);
+}
+
+/* ── Taskbar ── */
+.os-taskbar {
   position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
+  margin: 3rem auto 0;
+  max-width: 900px;
+  width: 90vw;
+  background: rgba(5, 8, 16, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.mission-indicator.active {
-  background: var(--cyan);
-  box-shadow: 0 0 12px var(--cyan);
-  animation: missionPulse 1.5s ease-in-out infinite;
+.os-taskbar-start {
+  flex-shrink: 0;
 }
-.mission-indicator.completed {
-  background: transparent;
-  border: 2px solid rgba(0, 245, 255, 0.4);
-}
-.mission-indicator.completed::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 6px;
+.os-taskbar-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.65rem;
+  font-weight: 900;
   color: var(--cyan);
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
 }
-@keyframes missionPulse {
-  0%, 100% { box-shadow: 0 0 12px var(--cyan); }
-  50% { box-shadow: 0 0 25px var(--cyan), 0 0 40px rgba(0, 245, 255, 0.3); }
+.os-taskbar-apps {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.mission-date {
-  font-family: 'Orbitron', monospace !important;
+.os-taskbar-app {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s;
+  cursor: default;
 }
+.os-taskbar-app.active {
+  color: var(--cyan);
+  background: rgba(0, 245, 255, 0.06);
+  border-bottom: 1px solid var(--cyan);
+}
+.os-taskbar-clock {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Mobile: hide taskbar apps, simplify ── */
+@media (max-width: 768px) {
+  .os-taskbar-apps { display: none; }
+  .os-taskbar { padding: 0.5rem 1.5rem; }
+}
+
 
 
 /* ── PROJECTS ──────────────────────────────────────────────── */
