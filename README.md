@@ -1,12 +1,8 @@
-<div align="center">
-
 # ⚡ Jaykumar Tapodhan | Full-Stack Portfolio
 
 **Full-Stack Developer · AI Enthusiast · Computer Engineering Undergraduate**
 
 Building intelligent web apps, enterprise infrastructure, and AI systems at the intersection of full-stack engineering and product ownership.
-
-<br />
 
 > **“From enterprise LAN monitoring managing 2,000+ endpoints to AI-powered platforms — I ship things that work.”**
 
