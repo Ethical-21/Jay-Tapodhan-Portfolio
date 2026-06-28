@@ -24,6 +24,8 @@ export default function Contact({ contact }: Pick<PortfolioData, 'contact'>) {
           <div className="contact-links">
             {contact.links.map((link) => {
               const isExternal = !link.modal && !link.url.startsWith('mailto') && link.url !== '#';
+              const isMail = link.url.startsWith('mailto:');
+              
               if (link.modal) {
                 return (
                   <button
@@ -37,6 +39,34 @@ export default function Contact({ contact }: Pick<PortfolioData, 'contact'>) {
                   </button>
                 );
               }
+
+              if (isMail) {
+                return (
+                  <a
+                    key={link.text}
+                    href={link.url}
+                    className="contact-btn"
+                    data-type={link.icon}
+                    onClick={(e) => {
+                      const email = link.url.replace('mailto:', '');
+                      navigator.clipboard.writeText(email);
+                      const target = e.currentTarget;
+                      const originalHTML = target.innerHTML;
+                      target.innerHTML = svgMap['mail'] ? 
+                        // @ts-ignore
+                        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied to clipboard!` : 
+                        'Copied to clipboard!';
+                      setTimeout(() => {
+                        target.innerHTML = originalHTML;
+                      }, 2500);
+                    }}
+                  >
+                    {svgMap[link.icon]}
+                    {link.text}
+                  </a>
+                );
+              }
+
               return (
                 <a
                   key={link.text}
