@@ -1,4 +1,10 @@
+<div align="center">
+
 # ⚡ Jaykumar Tapodhan | Full-Stack Portfolio
+
+</div>
+
+<div align="justify">
 
 **Full-Stack Developer · AI Enthusiast · Computer Engineering Undergraduate**
 
@@ -7,6 +13,8 @@ Building intelligent web apps, enterprise infrastructure, and AI systems at the 
 > **“From enterprise LAN monitoring managing 2,000+ endpoints to AI-powered platforms — I ship things that work.”**
 
 I am a Computer Engineering student (graduating 2027) at MBIT, CVM University, with production experience across AI integration, backend engineering, and enterprise systems. I have a track record of owning projects end-to-end under real-world deadlines, most recently as a Full-Stack Developer Intern at **Hi Lab Solution**, an AI Technology Intern at **Flaunch**, and a Full-Stack Development Trainee at **IBM**.
+
+</div>
 
 ---
 
@@ -46,6 +54,8 @@ I am a Computer Engineering student (graduating 2027) at MBIT, CVM University, w
 </div>
 
 ---
+
+<div align="justify">
 
 ## 🚀 Featured Projects
 
@@ -90,6 +100,8 @@ Currently expanding into DevOps and seeking internship or full-time roles where 
 - 📧 **Email:** [jaytapodhan21@gmail.com](mailto:jaytapodhan21@gmail.com)
 - 💼 **LinkedIn:** [linkedin.com/in/jaytapodhan](https://www.linkedin.com/in/jaytapodhan/)
 - 👨‍💻 **GitHub:** [github.com/Ethical-21](https://github.com/Ethical-21)
+
+</div>
 
 <br />
 
