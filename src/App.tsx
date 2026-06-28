@@ -24,6 +24,14 @@ export default function App() {
   useScrollReveal();
   useSectionBg();
 
+  // Force scroll to top on page refresh
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleLoaderComplete = useCallback(() => {
     setLoading(false);
     // Reveal content — the loader JT. is still visible at nav position
@@ -39,6 +47,19 @@ export default function App() {
     if (revealed) {
       const timer = setTimeout(() => setLoaderMounted(false), 900);
       return () => clearTimeout(timer);
+    }
+  }, [revealed]);
+
+  // Handle direct navigation to paths like /about, /projects
+  useEffect(() => {
+    if (revealed) {
+      const path = window.location.pathname.slice(1); // remove leading slash
+      if (['about', 'projects', 'skills', 'contact'].includes(path)) {
+        setTimeout(() => {
+          const el = document.getElementById(path);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
     }
   }, [revealed]);
 

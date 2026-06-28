@@ -94,8 +94,8 @@ const portfolio: PortfolioData = {
       description:
         "AI-powered recipe generator and meal planner with smart ingredient suggestions, built during Flaunch internship using GROQ API and Firebase authentication.",
       tags: ["MealDB API", "Firebase Auth", "GROQ API", "React.js"],
-      link: "https://github.com/Ethical-21",
-      deployingSoon: true,
+      link: "https://github.com/Ethical-21/flavour-with-fusion",
+      liveUrl: "https://flavour-with-fusion-1.vercel.app/",
       highlights: [
         "AI recipe generation",
         "Smart meal planning",
