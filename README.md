@@ -39,19 +39,23 @@ I am a 4th-year Computer Engineering student at MBIT, CVM University. Previously
 
 ## 🚀 Featured Projects
 
-### 1. TaskFlow — Role-Based Team Manager
-A production-grade team task manager with role-based assignment, real-time dashboards, and secure JWT authentication.
-- **Stack:** React, Node.js, Express, MongoDB, Tailwind
-- **Links:** [Live Demo](https://taskflow-app-flame-kappa.vercel.app/) | [GitHub Repo](https://github.com/Ethical-21/taskflow-app)
+### 1. InfraEye — Enterprise LAN Monitor
+Enterprise infrastructure monitoring platform for centralized endpoint management across a LAN. Features live device monitoring, hardware/software inventory, license tracking, remote deployment, and automated Excel reporting.
+- **Stack:** FastAPI, React.js, MongoDB, Python
 
-### 2. Flavour with Fusion — Smart Recipe AI
-An AI-powered recipe and meal planner that dynamically generates cooking instructions using the GROQ API, backed by Firebase authentication.
+### 2. TaskFlow — Team Task Manager
+A production-grade team task manager with role-based assignment, real-time dashboards, and secure JWT authentication. Built as the IBM SkillsBuild capstone project.
+- **Stack:** React.js, Node.js, Express.js, MongoDB, Tailwind
+- **Links:** [Live Demo](https://taskflow-ctm.vercel.app/) | [GitHub Repo](https://github.com/Ethical-21/taskflow-app)
+
+### 3. Flavour with Fusion — Recipe AI
+An AI-powered recipe generator and meal planner with smart ingredient suggestions, built during Flaunch internship using GROQ API and Firebase authentication.
 - **Stack:** React, Firebase, GROQ API
 - **Links:** [Live Demo](https://flavour-with-fusion-1.vercel.app/) | [GitHub Repo](https://github.com/Ethical-21/flavour-with-fusion)
 
-### 3. Reading Comprehension Assistant
-An entirely offline AI tool that summarizes local documents and generates contextual questions using LLaMA 3.2 via Ollama. 
-- **Stack:** Python, LLaMA 3.2, NLP
+### 4. MuseMate — AI Museum Chatbot
+Real-time chatbot for museum visitors handling exhibit queries and ticket booking via WebSocket. Features a custom JSON knowledge base for context-aware responses.
+- **Stack:** Flask, Flask-SocketIO, Python
 
 ---
 
