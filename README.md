@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Jay Tapodhan | Full-Stack AI Portfolio
+# ⚡ Jay Tapodhan | Full-Stack Portfolio
 
 **Computer Engineering Student · Full-Stack Developer · AI Enthusiast**
 
