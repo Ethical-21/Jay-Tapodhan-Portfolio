@@ -16,6 +16,18 @@ export default function Nav({ initials }: { initials: string }) {
     document.body.style.overflow = next ? 'hidden' : '';
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    close();
+    const id = href.replace('#', '');
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Keep the URL clean (remove the hash)
+      window.history.pushState(null, '', window.location.pathname);
+    }
+  };
+
   return (
     <nav>
       <div className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>{initials}<span>.</span></div>
@@ -32,7 +44,7 @@ export default function Nav({ initials }: { initials: string }) {
       <ul className={`nav-links${open ? ' open' : ''}`} id="navLinks">
         {links.map(l => (
           <li key={l.href}>
-            <a href={l.href} onClick={close}>{l.label}</a>
+            <a href={l.href} onClick={(e) => handleNavClick(e, l.href)}>{l.label}</a>
           </li>
         ))}
       </ul>
