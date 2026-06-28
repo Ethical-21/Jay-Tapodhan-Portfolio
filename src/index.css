@@ -417,6 +417,278 @@ section{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction
 .lead-role{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:600}
 .lead-org{font-size:.68rem;color:var(--muted);margin-top:1px}
 
+/* ══════════════════════════════════════════════════════════════
+   DOSSIER THEME — "The Classified Intel File"
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Floating watermarks ── */
+.dossier-watermarks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.watermark {
+  position: absolute;
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  color: rgba(0, 245, 255, 0.015);
+  letter-spacing: 12px;
+  white-space: nowrap;
+  user-select: none;
+}
+.wm-1 {
+  top: 15%;
+  left: -5%;
+  font-size: 5rem;
+  transform: rotate(-15deg);
+  animation: wmDrift1 25s linear infinite;
+}
+.wm-2 {
+  top: 55%;
+  right: -10%;
+  font-size: 6rem;
+  transform: rotate(10deg);
+  animation: wmDrift2 30s linear infinite;
+}
+.wm-3 {
+  bottom: 10%;
+  left: 20%;
+  font-size: 4rem;
+  transform: rotate(-8deg);
+  animation: wmDrift3 20s linear infinite;
+}
+@keyframes wmDrift1 {
+  0%, 100% { transform: rotate(-15deg) translateX(0); }
+  50% { transform: rotate(-15deg) translateX(40px); }
+}
+@keyframes wmDrift2 {
+  0%, 100% { transform: rotate(10deg) translateX(0); }
+  50% { transform: rotate(10deg) translateX(-50px); }
+}
+@keyframes wmDrift3 {
+  0%, 100% { transform: rotate(-8deg) translateY(0); }
+  50% { transform: rotate(-8deg) translateY(-30px); }
+}
+
+/* ── Dossier ID Badge Card ── */
+.dossier-id {
+  position: relative;
+}
+.dossier-stamp {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  padding: 3px 10px;
+  margin-bottom: 1.2rem;
+  display: inline-block;
+  position: relative;
+}
+.dossier-stamp::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px dashed rgba(255, 184, 0, 0.15);
+}
+
+/* ── Holographic scan-line sweep ── */
+.id-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.7;
+  animation: scanSweep 3s ease-in-out infinite;
+  z-index: 5;
+  box-shadow: 0 0 15px var(--cyan), 0 0 30px rgba(0, 245, 255, 0.3);
+}
+@keyframes scanSweep {
+  0% { top: 0; opacity: 0.7; }
+  50% { top: calc(100% - 3px); opacity: 0.4; }
+  51% { opacity: 0; }
+  100% { top: 0; opacity: 0; }
+}
+
+/* ── Fingerprint overlay on hover ── */
+.id-fingerprint {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.5s;
+  background:
+    radial-gradient(ellipse at center, transparent 25%, rgba(0, 245, 255, 0.02) 26%, transparent 27%),
+    radial-gradient(ellipse at center, transparent 33%, rgba(0, 245, 255, 0.02) 34%, transparent 35%),
+    radial-gradient(ellipse at center, transparent 41%, rgba(0, 245, 255, 0.02) 42%, transparent 43%),
+    radial-gradient(ellipse at center, transparent 49%, rgba(0, 245, 255, 0.02) 50%, transparent 51%),
+    radial-gradient(ellipse at center, transparent 57%, rgba(0, 245, 255, 0.02) 58%, transparent 59%),
+    radial-gradient(ellipse at center, transparent 65%, rgba(0, 245, 255, 0.02) 66%, transparent 67%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.id-photo-wrap:hover .id-fingerprint {
+  opacity: 1;
+  animation: fingerprintPulse 2s ease-in-out infinite;
+}
+@keyframes fingerprintPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ── Dossier ID code ── */
+.dossier-id-code {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: rgba(0, 245, 255, 0.3);
+  margin-top: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* ── Dossier profile card ── */
+.dossier-profile {
+  position: relative;
+}
+.dossier-profile::before {
+  content: '';
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  animation: statusBlink 2s ease-in-out infinite;
+}
+@keyframes statusBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ── [DECRYPTED] blink ── */
+.dossier-blink {
+  color: var(--cyan);
+  animation: dossierBlink 1.5s step-end infinite;
+}
+@keyframes dossierBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Typing cursor ── */
+.typing-cursor {
+  color: var(--cyan);
+  animation: cursorBlink 0.8s step-end infinite;
+  font-weight: 100;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Glitch text ── */
+.glitch-text {
+  font-family: 'Orbitron', monospace;
+}
+
+/* ── Clearance Level Cards ── */
+.dossier-clearance {
+  position: relative;
+  overflow: hidden;
+}
+.clearance-level {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+  opacity: 0.7;
+}
+.clearance-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.8rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  color: rgba(0, 245, 255, 0.5);
+  text-transform: uppercase;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+  animation: statusBlink 2s ease-in-out infinite;
+}
+
+/* ── Dossier Clearance corner-cut decoration ── */
+.dossier-clearance::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 245, 255, 0.08) 50%);
+  pointer-events: none;
+}
+
+/* ── Mission Log entries ── */
+.dossier-missions .mission-entry {
+  position: relative;
+}
+.mission-status {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+.mission-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: relative;
+}
+.mission-indicator.active {
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  animation: missionPulse 1.5s ease-in-out infinite;
+}
+.mission-indicator.completed {
+  background: transparent;
+  border: 2px solid rgba(0, 245, 255, 0.4);
+}
+.mission-indicator.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 6px;
+  color: var(--cyan);
+}
+@keyframes missionPulse {
+  0%, 100% { box-shadow: 0 0 12px var(--cyan); }
+  50% { box-shadow: 0 0 25px var(--cyan), 0 0 40px rgba(0, 245, 255, 0.3); }
+}
+.mission-date {
+  font-family: 'Orbitron', monospace !important;
+}
+
 
 /* ── PROJECTS ──────────────────────────────────────────────── */
 #projects{background:transparent}
