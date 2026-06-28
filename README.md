@@ -2,11 +2,11 @@
 
 # ⚡ Jaykumar Tapodhan | Full-Stack Portfolio
 
+**Full-Stack Developer · AI Enthusiast · Computer Engineering Undergraduate**
+
 </div>
 
 <div align="justify">
-
-**Full-Stack Developer · AI Enthusiast · Computer Engineering Undergraduate**
 
 Building intelligent web apps, enterprise infrastructure, and AI systems at the intersection of full-stack engineering and product ownership.
 
@@ -18,7 +18,7 @@ I am a Computer Engineering student (graduating 2027) at MBIT, CVM University, w
 
 ---
 
-## 🛠️ Technical Arsenal
+<h2 align="center">🛠️ Technical Arsenal</h2>
 
 <div align="center">
 
@@ -57,7 +57,7 @@ I am a Computer Engineering student (graduating 2027) at MBIT, CVM University, w
 
 <div align="justify">
 
-## 🚀 Featured Projects
+<h2 align="center">🚀 Featured Projects</h2>
 
 ### 1. InfraEye — Enterprise LAN Monitoring & Asset Intelligence
 Took end-to-end ownership to build an enterprise LAN monitoring platform currently managing 2,000+ endpoints. Features a master-agent architecture (Watchdog-Worker pattern on Windows), live CPU/RAM/disk charts via Recharts, and automated Excel reporting that cut audit prep from 3 hours to 2 minutes.
@@ -75,7 +75,7 @@ An AI-powered recipe platform using a 3-tier resolution engine (Spoonacular → 
 
 ---
 
-## 💼 Experience Highlights
+<h2 align="center">💼 Experience Highlights</h2>
 
 - **Hi Lab Solution** (Full-Stack Developer Intern) — Engineered and shipped `InfraEye`, a massively scalable enterprise LAN monitor with robust crash recovery and OTA update delivery.
 - **IBM** (Full-Stack Development Trainee) — Built `TaskFlow` following IBM SDLC practices. Selected for an exclusive recognition visit to the IBM GIFT City office for top cohort performance.
@@ -83,7 +83,7 @@ An AI-powered recipe platform using a 3-tier resolution engine (Spoonacular → 
 
 ---
 
-## 🏆 Honors & Awards
+<h2 align="center">🏆 Honors & Awards</h2>
 
 - 🥈 **2nd Runner-Up (Rs. 10,000)** — Dev Summit 2026 National Hackathon (Jagannath University)
 - 🌟 **Top 20 Intern** — Flaunch (Earned Rs. 5,000 stipend & Direct Hackathon Finals entry)
@@ -93,7 +93,7 @@ An AI-powered recipe platform using a 3-tier resolution engine (Spoonacular → 
 
 ---
 
-## 🤝 Let's Connect
+<h2 align="center">🤝 Let's Connect</h2>
 
 Currently expanding into DevOps and seeking internship or full-time roles where engineering depth and product ownership drive meaningful impact.
 
