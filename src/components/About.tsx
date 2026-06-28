@@ -235,15 +235,6 @@ export default function About({ about, card, name }: Props) {
                 <div className="exp-content">
                   <div className="exp-company">{e.company}</div>
                   <div className="exp-role">{e.role}</div>
-                  <div className="exp-progress-bar">
-                    <motion.div 
-                      className="exp-progress-fill"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "100%" }}
-                      transition={{ duration: 1, delay: 0.3 + i * 0.2, ease: "easeOut" }}
-                      viewport={{ once: true }}
-                    />
-                  </div>
                 </div>
                 <div className="exp-period">{e.period}</div>
               </div>
