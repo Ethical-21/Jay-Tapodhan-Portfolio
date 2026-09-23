@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import type { Project } from '../types';
 
 const icons: Record<string, ReactNode> = {
@@ -31,14 +32,18 @@ function ProjectPreview({ project }: { project: Project }) {
   const kind = projectKind(project);
 
   return (
-    <div className={`project-preview project-preview-${kind}`} aria-hidden="true">
+    <div className={`project-preview project-preview-${kind}`} aria-hidden="true" style={project.imageUrl ? { height: 'auto', aspectRatio: '16/9' } : {}}>
       <div className="preview-topbar">
         <span />
         <span />
         <span />
       </div>
-      <div className="preview-stage">
-        {kind === 'infra' && (
+      <div className="preview-stage" style={project.imageUrl ? { padding: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' } : {}}>
+        {project.imageUrl ? (
+          <img src={project.imageUrl} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        ) : (
+          <>
+            {kind === 'infra' && (
           <>
             <div className="preview-side-list">
               <i /><i /><i />
@@ -85,22 +90,36 @@ function ProjectPreview({ project }: { project: Project }) {
             <div className="preview-kanban-col"><i /><i /><i /></div>
           </>
         )}
+          </>
+        )}
       </div>
     </div>
   );
 }
 
-function ProjectActions({ project }: { project: Project }) {
+function ProjectActions({ project, onPlayVideo }: { project: Project; onPlayVideo?: () => void }) {
   const actions = [
     isRealLink(project.link) && { href: project.link, label: 'GitHub', icon: actionIcons.github, className: '' },
     isRealLink(project.liveUrl) && { href: project.liveUrl, label: 'Live Demo', icon: actionIcons.live, className: 'live-link' },
     isRealLink(project.reportUrl) && { href: project.reportUrl, label: 'Report', icon: actionIcons.report, className: 'report-link' },
   ].filter(Boolean) as Array<{ href: string; label: string; icon: ReactNode; className: string }>;
 
-  if (!actions.length) return null;
-
   return (
     <div className="featured-actions">
+      {isRealLink(project.videoUrl) && (
+        <button
+          className="project-link live-link"
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            onPlayVideo?.();
+          }}
+          style={{ cursor: 'pointer', background: 'transparent', border: '1px solid rgba(0, 245, 255, 0.3)', color: '#00f5ff' }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Play Video
+        </button>
+      )}
       {actions.map((action) => (
         <a
           href={action.href}
@@ -122,10 +141,12 @@ function ProjectCard({
   project,
   active,
   onToggle,
+  onPlayVideo,
 }: {
   project: Project;
   active: boolean;
   onToggle: () => void;
+  onPlayVideo?: () => void;
 }) {
   const featureItems = project.highlights?.slice(0, 4) || [];
 
@@ -148,7 +169,7 @@ function ProjectCard({
       <div className="project-content-wrapper">
         <div className="project-media-column">
           <ProjectPreview project={project} />
-          <ProjectActions project={project} />
+          <ProjectActions project={project} onPlayVideo={onPlayVideo} />
         </div>
         <div className="project-detail-column">
 
@@ -192,6 +213,7 @@ function ProjectCard({
 
 export default function Projects({ projects }: { projects: Project[] }) {
   const [activeProject, setActiveProject] = useState<string>('');
+  const [playingVideoUrl, setPlayingVideoUrl] = useState<string | null>(null);
 
   const rows = [];
   for (let i = 0; i < projects.length; i += 2) {
@@ -199,7 +221,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <section id="projects">
+    <section id="projects" style={{ position: 'relative' }}>
       <canvas className="section-bg" id="projects-bg" />
       <div className="projects-header reveal">
         <div className="section-tag">Featured Work</div>
@@ -216,12 +238,87 @@ export default function Projects({ projects }: { projects: Project[] }) {
                   key={project.num}
                   active={activeProject === project.num}
                   onToggle={() => setActiveProject((current) => current === project.num ? '' : project.num)}
+                  onPlayVideo={() => {
+                    if (isRealLink(project.videoUrl)) {
+                      setPlayingVideoUrl(project.videoUrl as string);
+                    }
+                  }}
                 />
               ))}
             </div>
           );
         })}
       </div>
+      
+      {/* Video Modal Overlay */}
+      {playingVideoUrl && createPortal(
+        <div 
+          className="video-modal-overlay" 
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(5, 8, 16, 0.9)',
+            backdropFilter: 'blur(10px)',
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem'
+          }}
+          onClick={() => setPlayingVideoUrl(null)}
+        >
+          <div 
+            className="video-modal-content"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '1200px',
+              aspectRatio: '16/9',
+              border: '2px solid rgba(0, 245, 255, 0.5)',
+              borderRadius: '12px',
+              boxShadow: '0 0 40px rgba(0, 245, 255, 0.2), inset 0 0 20px rgba(0, 245, 255, 0.1)',
+              overflow: 'hidden',
+              backgroundColor: '#000',
+              transform: 'translateY(0)',
+              animation: 'videoModalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setPlayingVideoUrl(null)}
+              style={{
+                position: 'absolute',
+                top: '1rem', right: '1rem',
+                zIndex: 10,
+                background: 'rgba(0, 0, 0, 0.5)',
+                border: '1px solid rgba(0, 245, 255, 0.3)',
+                color: '#fff',
+                width: '40px', height: '40px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <video 
+              src={playingVideoUrl} 
+              controls 
+              autoPlay 
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+            />
+          </div>
+        </div>,
+        document.body
+      )}
+      <style>
+        {`
+          @keyframes videoModalIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+          }
+        `}
+      </style>
     </section>
   );
 }

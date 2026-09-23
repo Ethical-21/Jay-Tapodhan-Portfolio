@@ -60,6 +60,7 @@ export interface Project {
   highlights?: string[];
   reportUrl?: string;
   videoUrl?: string;
+  imageUrl?: string;
 }
 
 export interface SkillItem {

@@ -78,7 +78,8 @@ const portfolio: PortfolioData = {
       tags: ["FastAPI", "React.js", "MongoDB", "Python"],
       link: "#",
       reportUrl: "/InfraEye_Report.pdf",
-      videoUrl: "#",
+      videoUrl: "/infraeye-demo.mp4",
+      imageUrl: "/THUMBNAIL.png",
       highlights: [
         "Live device monitoring & alerts",
         "HW/SW inventory & license tracking",
