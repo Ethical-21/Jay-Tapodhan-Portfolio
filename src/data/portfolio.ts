@@ -77,7 +77,6 @@ const portfolio: PortfolioData = {
         "Enterprise infrastructure monitoring platform for centralized endpoint management across a LAN. Provides live device monitoring, hardware/software inventory, license tracking, remote deployment, and automated reporting.",
       tags: ["FastAPI", "React.js", "MongoDB", "Python"],
       link: "#",
-      reportUrl: "/InfraEye_Report.pdf",
       videoUrl: "/infraeye-demo.mp4",
       imageUrl: "/THUMBNAIL.png",
       highlights: [
@@ -97,6 +96,7 @@ const portfolio: PortfolioData = {
       tags: ["MealDB API", "Firebase Auth", "GROQ API", "React.js"],
       link: "https://github.com/Ethical-21/flavour-with-fusion",
       liveUrl: "https://flavour-with-fusion-1.vercel.app/",
+      imageUrl: "/Flavour with Fusion.png",
       highlights: [
         "AI recipe generation",
         "Smart meal planning",
@@ -108,18 +108,18 @@ const portfolio: PortfolioData = {
       num: "03",
       icon: "bot",
       featured: false,
-      title: "MuseMate — AI Museum Chatbot",
+      title: "PeoplePay — Enterprise HRMS",
       description:
-        "Real-time chatbot for museum visitors handling exhibit queries and ticket booking via WebSocket. Built with Flask and a custom JSON knowledge base.",
-      tags: ["Flask", "Flask-SocketIO", "JSON KB", "Python"],
-      link: "#",
-      reportUrl: "/MuseMate_Report.pdf",
-      videoUrl: "#",
+        "Comprehensive Human Resource and Payroll Management System. Handles employee records, dynamic payroll generation, PDF payslips, and role-based access control.",
+      tags: ["FastAPI", "React.js", "PostgreSQL", "Tailwind CSS"],
+      link: "https://github.com/Ethical-21/PeoplePay-585",
+      liveUrl: "",
+      imageUrl: "/PeoplePay.png",
       highlights: [
-        "Real-time WebSocket chat",
-        "Exhibit info & ticket booking",
-        "Custom JSON knowledge base",
-        "Context-aware responses",
+        "Dynamic payroll generation",
+        "Automated PDF payslips",
+        "Role-based access control",
+        "Employee records management",
       ],
     },
     {
@@ -132,6 +132,7 @@ const portfolio: PortfolioData = {
       tags: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
       link: "https://github.com/Ethical-21/taskflow-app",
       liveUrl: "https://taskflow-ctm.vercel.app/",
+      imageUrl: "/TASKFLOW.png",
       highlights: [
         "Role-based task assignment",
         "Real-time collaboration dashboard",
